@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="home_bg">#B7F0B7</color>
+    <color name="home_btn_bg">#2B2D30</color>
+
+    <!-- region Калькулятор -->
+    <color name="calc_bg">#202020</color>
+    <color name="calc_btn_digit_bg">#3B3B3B</color>
+    <color name="calc_btn_func_bg">#323232</color>
+    <color name="calc_btn_equal_bg">#4BC0FD</color>
+    <color name="calc_tv_exp_fg">#A5A5A5</color>
+    <!-- endregion -->
+
+    <!-- region Game -->
+    <color name="game_title_bg">#EBCA5E</color>
+    <color name="game_score_bg">#3C3A33</color>
+    <color name="game_btn_bg">#F45D3D</color>
+    <color name="game_layout_field">#A39280</color>
+    <color name="game_tv_tile_bg_0">#BEAE9F</color>
+    <color name="game_tv_tile_fg_0">#BEAE9F</color>
+    <color name="game_tv_tile_bg_2">#ECE2D8</color>
+    <color name="game_tv_tile_fg_2">#766D64</color>
+    <color name="game_tv_tile_bg_4">#ECDFCC</color>
+    <color name="game_tv_tile_fg_4">#776E65</color>
+    <color name="game_tv_tile_bg_8">#F2B17D</color>
+    <color name="game_tv_tile_fg_8">#F8F4F6</color>
+    <color name="game_tv_tile_bg_16">#F4966A</color>
+    <color name="game_tv_tile_fg_16">#F7F4EF</color>
+    <color name="game_tv_tile_bg_32">#EF7A66</color>
+    <color name="game_tv_tile_fg_32">#F3F4E8</color>
+    <color name="game_tv_tile_bg_64">#F15E46</color>
+    <color name="game_tv_tile_fg_64">#F5F5E9</color>
+
+    <!-- endregion -->
+
+</resources>

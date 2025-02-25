@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Android-212</string>
+    <string name="home_title">Знайомство з Android</string>
+    <string name="home_btn_calc">Калькулятор</string>
+    <string name="home_btn_game">Жести. Гра.</string>
+
+    <!-- region Калькулятор -->
+    <string name="calc_tv_title">Калькулятор</string>
+    <string name="calc_btn_percent">%</string>
+    <string name="calc_btn_ce">CE</string>
+    <string name="calc_btn_c">C</string>
+    <string name="calc_btn_backspace">\u232B</string>
+    <string name="calc_btn_inv">1/x</string>
+    <string name="calc_btn_square">x2</string>
+    <string name="calc_btn_sqrt">2x</string>
+    <string name="calc_btn_div">/</string>
+    <string name="calc_btn_mul">*</string>
+    <string name="calc_btn_sub">-</string>
+    <string name="calc_btn_add">+</string>
+    <string name="calc_btn_pm">+/-</string>
+    <string name="calc_btn_dot">.</string>
+    <string name="calc_btn_equal">=</string>
+    <string name="calc_btn_0">0</string>
+    <string name="calc_btn_1">1</string>
+    <string name="calc_btn_2">2</string>
+    <string name="calc_btn_3">3</string>
+    <string name="calc_btn_4">4</string>
+    <string name="calc_btn_5">5</string>
+    <string name="calc_btn_6">6</string>
+    <string name="calc_btn_7">7</string>
+    <string name="calc_btn_8">8</string>
+    <string name="calc_btn_9">9</string>
+    <string name="calc_div_zero">Ділення на 0</string>
+    <string name="calc_negative_sqrt">Не визначено</string>
+    <!-- endregion -->
+
+    <!-- region Game -->
+    <string name="game_tv_title">2048</string>
+    <string name="game_tv_score_tpl">SCORE\n%s</string>
+    <string name="game_tv_best_tpl">BEST\n%s</string>
+    <string name="game_btn_new">NEW</string>
+    <string name="game_btn_undo">UNDO</string>
+    <string name="game_tv_info">Join the numbers and get to the 2048 tile!</string>
+    <!-- endregion -->
+
+</resources>
