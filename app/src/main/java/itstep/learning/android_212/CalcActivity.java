@@ -45,7 +45,13 @@ public class CalcActivity extends AppCompatActivity {
         findViewById( R.id.calc_btn_pm ).setOnClickListener( this::onPlusMinusClick );
         findViewById( R.id.calc_btn_sub ).setOnClickListener( this::onSubtractClick);
         findViewById( R.id.calc_btn_add ).setOnClickListener( this::onPlusClick );
-        findViewById( R.id.calc_btn_equal ).setOnClickListener( this::onEqualsClick );
+        findViewById( R.id.calc_btn_equal ).setOnClickListener( this::onEqualClick );
+        findViewById(R.id.calc_btn_percent).setOnClickListener(this::onPercentClick);
+        findViewById(R.id.calc_btn_square).setOnClickListener(this::onSquareClick);
+        findViewById(R.id.calc_btn_div).setOnClickListener(this::onDivideClick);
+        findViewById(R.id.calc_btn_mul).setOnClickListener(this::onMultiplyClick);
+        findViewById(R.id.calc_btn_dot).setOnClickListener(this::onDotClick);
+
     }
 
     // region Збереження та відновлення стану при змінах конфігурації
@@ -85,8 +91,52 @@ public class CalcActivity extends AppCompatActivity {
         needClearResult = true;
     }
 
-    private void onEqualsClick(View view) {
-        if (isErrorDisplayed || currentOperation.isEmpty()) return;
+    private void onPercentClick(View view) {
+        if (isErrorDisplayed) return;
+
+        String result = tvResult.getText().toString();
+        double value = Double.parseDouble(result);
+        value /= 100.0;
+
+        tvResult.setText(resultFromDouble(value));
+        needClearResult = true;
+    }
+
+    private void onSquareClick(View view) {
+        if (isErrorDisplayed) return;
+
+        String result = tvResult.getText().toString();
+        double value = Double.parseDouble(result);
+        value = Math.pow(value, 2);
+
+        tvResult.setText(resultFromDouble(value));
+        needClearResult = true;
+    }
+
+    private void onDivideClick(View view) {
+        firstOperand = Double.parseDouble(tvResult.getText().toString());
+        currentOperation = "/";
+        needClearResult = true;
+    }
+
+    private void onMultiplyClick(View view) {
+        firstOperand = Double.parseDouble(tvResult.getText().toString());
+        currentOperation = "*";
+        needClearResult = true;
+    }
+
+    private void onDotClick(View view) {
+        if (isErrorDisplayed) return;
+
+        String result = tvResult.getText().toString();
+        if (!result.contains(".")) {
+            tvResult.setText(result + ".");
+        }
+    }
+
+
+    private void onEqualClick(View view) {
+        if (currentOperation == null) return;
 
         double secondOperand = Double.parseDouble(tvResult.getText().toString());
         double result = 0;
@@ -98,13 +148,24 @@ public class CalcActivity extends AppCompatActivity {
             case "-":
                 result = firstOperand - secondOperand;
                 break;
+            case "*":
+                result = firstOperand * secondOperand;
+                break;
+            case "/":
+                if (secondOperand == 0) {
+                    tvResult.setText(getString(R.string.calc_div_zero));
+                    isErrorDisplayed = true;
+                    return;
+                }
+                result = firstOperand / secondOperand;
+                break;
         }
 
         tvResult.setText(resultFromDouble(result));
-        tvExpression.setText(""); // Очистка выражения
-        currentOperation = ""; // Сброс операции
+        currentOperation = null;
         needClearResult = true;
     }
+
 
     private void onPlusMinusClick( View view ) {
         if (isErrorDisplayed) return;
