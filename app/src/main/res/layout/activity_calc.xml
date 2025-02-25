@@ -183,8 +183,9 @@
                 android:id="@+id/calc_btn_dot"
                 android:text="@string/calc_btn_dot"/>
             <Button
-                style="@style/calc_btn_func"
+                style="@style/calc_btn_func_equal"
                 android:id="@+id/calc_btn_equal"
+                android:textColor="@color/black"
                 android:text="@string/calc_btn_equal"/>
         </LinearLayout>
 
