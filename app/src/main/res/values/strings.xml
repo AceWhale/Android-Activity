@@ -3,6 +3,7 @@
     <string name="home_title">Знайомство з Android</string>
     <string name="home_btn_calc">Калькулятор</string>
     <string name="home_btn_game">Жести. Гра.</string>
+    <string name="home_btn_anim">Анімації</string>
 
     <!-- region Калькулятор -->
     <string name="calc_tv_title">Калькулятор</string>
@@ -42,5 +43,12 @@
     <string name="game_btn_undo">UNDO</string>
     <string name="game_tv_info">Join the numbers and get to the 2048 tile!</string>
     <!-- endregion -->
+
+
+    <string name="anim_tv_alpha">Alpha</string>
+    <string name="anim_tv_rotate">Rotate</string>
+    <string name="anim_tv_scale">Scale</string>
+    <string name="anim_v_translate">Translate</string>
+
 
 </resources>
