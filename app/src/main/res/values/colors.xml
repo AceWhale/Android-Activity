@@ -32,6 +32,26 @@
     <color name="game_tv_tile_fg_32">#F3F4E8</color>
     <color name="game_tv_tile_bg_64">#F15E46</color>
     <color name="game_tv_tile_fg_64">#F5F5E9</color>
+    <color name="game_tv_tile_bg_128">#EDCE71</color>
+    <color name="game_tv_tile_fg_128">#F6F3F1</color>
+    <color name="game_tv_tile_bg_256">#EDCC61</color>
+    <color name="game_tv_tile_fg_256">#F5F6F3</color>
+    <color name="game_tv_tile_bg_512">#ECC850</color>
+    <color name="game_tv_tile_fg_512">#F3F5F0</color>
+    <color name="game_tv_tile_bg_1024">#EDC53F</color>
+    <color name="game_tv_tile_fg_1024">#F4F4F1</color>
+    <color name="game_tv_tile_bg_2048">#EEC12E</color>
+    <color name="game_tv_tile_fg_2048">#F2F4F1</color>
+    <color name="game_tv_tile_bg_4096">#EFC000</color>
+    <color name="game_tv_tile_fg_4096">#F2F4F1</color>
+    <color name="game_tv_tile_bg_8192">#EFC000</color>
+    <color name="game_tv_tile_fg_8192">#F2F4F1</color>
+    <color name="game_tv_tile_bg_16384">#EFC000</color>
+    <color name="game_tv_tile_fg_16384">#F2F4F1</color>
+    <color name="game_tv_tile_bg_32768">#EFC000</color>
+    <color name="game_tv_tile_fg_32768">#F2F4F1</color>
+    <color name="game_tv_tile_bg_65536">#EFC000</color>
+    <color name="game_tv_tile_fg_65536">#F2F4F1</color>
 
     <!-- endregion -->
 
