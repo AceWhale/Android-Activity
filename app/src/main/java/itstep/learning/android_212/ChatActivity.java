@@ -1,13 +1,29 @@
 package itstep.learning.android_212;
 
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -45,11 +61,17 @@ public class ChatActivity extends AppCompatActivity {
     ChatMessageAdapter chatMessageAdapter;
     private EditText etAuthor;
     private EditText etMessage;
+    private Handler handler;
+    private Animation bellAnimation;
+    private View bell;
+    public static String authorName;
+    private MediaPlayer incomeSound;
     private static final String PREFS_NAME = "ChatPrefs";
     private static final String PREFS_AUTHOR_KEY = "authorName";
     private static final String PREFS_AUTHOR_SET_KEY = "authorSet";
     private boolean isMessageSent = false;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +86,11 @@ public class ChatActivity extends AppCompatActivity {
             return insets;
         });
         threadPool = Executors.newFixedThreadPool(3);
+        handler = new Handler();
+
+        incomeSound = MediaPlayer.create(this, R.raw.income);
+        bell = findViewById(R.id.chat_iv_reminder);
+        bellAnimation = AnimationUtils.loadAnimation(this, R.anim.demo_bell);
 
         rvContainer = findViewById(R.id.chat_rv_container);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -71,21 +98,44 @@ public class ChatActivity extends AppCompatActivity {
         rvContainer.setLayoutManager(new LinearLayoutManager(this));
         chatMessageAdapter = new ChatMessageAdapter(chatMessages);
         rvContainer.setAdapter(chatMessageAdapter);
+        rvContainer.setOnTouchListener((view, event) -> {
+            if(event.getAction() == MotionEvent.ACTION_UP) {
+                view.performClick();
+            }
+            else {
+                hideKeyboard();
+            }
+            return false;
+        });
 
         etAuthor = findViewById(R.id.chat_et_author);
         etMessage = findViewById(R.id.chat_et_message);
         findViewById(R.id.chat_btn_send).setOnClickListener(this::onSendClick);
 
-        // Загрузка имени автора
-        String authorName = loadAuthorName();
+        authorName = loadAuthorName();
         etAuthor.setText(authorName);
 
-        // Установка доступности поля автора
         etAuthor.setEnabled(!isMessageSent);
 
         updateChat();
+        handler.post(this::repeater);
     }
 
+    private void hideKeyboard() {
+        View focusedView = getCurrentFocus();
+        if(focusedView != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(
+                    focusedView.getWindowToken(),0);
+            focusedView.clearFocus();
+        }
+    }
+
+    private void repeater() {
+        updateChat();
+        handler.postDelayed(this::repeater, 2000);
+    }
 
     private String loadAuthorName() {
         return getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getString(PREFS_AUTHOR_KEY, "");
@@ -175,7 +225,12 @@ public class ChatActivity extends AppCompatActivity {
     private void showChat(int newMessagesCount){
         int size = chatMessages.size();
         chatMessageAdapter.notifyItemRangeChanged(size - newMessagesCount, newMessagesCount);
-        rvContainer.scrollToPosition(size - 1);
+        if(newMessagesCount > 0) {
+            rvContainer.scrollToPosition(size - 1);
+            bell.startAnimation(bellAnimation);
+            incomeSound.start();
+            showNotification();
+        }
     }
 
     private void sendChatMessage(ChatMessage chatMessage) {
@@ -216,9 +271,62 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    private void showNotification() {
+        String channelId = "ChatChannelId";
+        String channelName = "ChatChannel";
+        String channelDescription = "Main Chan Notification Channel";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel notificationChannel = new NotificationChannel(
+                channelId,
+                channelName,
+                importance
+
+        );
+        notificationChannel.setDescription(channelDescription);
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(notificationChannel);
+
+        Notification notification =
+                new NotificationCompat.Builder( this, channelId)
+                        .setContentTitle( "New Chat Message" )
+                        .setContentText( "New incoming message" )
+                        .setSmallIcon(android.R.drawable.sym_def_app_icon)
+                        .build();
+
+        NotificationManagerCompat notificationManagerCompat =
+                NotificationManagerCompat.from( this );
+
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            if( Build. VERSION. SDK_INT >= Build. VERSION_CODES.TIRAMISU ) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+                        1050);
+            }
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        notificationManagerCompat.notify(100500, notification );
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        super. onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if( requestCode == 1050 ){
+
+        }
+    }
+
     @Override
     protected void onDestroy() {
         threadPool.shutdownNow();
+        handler.removeMessages(0);
         super.onDestroy();
     }
 }
